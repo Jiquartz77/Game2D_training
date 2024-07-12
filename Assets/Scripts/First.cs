@@ -18,12 +18,11 @@ public class NewBehaviourScript : MonoBehaviour {
     public GameObject CharacModel;
     public GameObject AttackBox;
     public GameObject AttackLoc;
-    
+
     void Start() {
         Application.targetFrameRate =60;
     }
     // Update is called once per frame
-    
     void Update() {
         Move();
         Jump();
@@ -31,7 +30,6 @@ public class NewBehaviourScript : MonoBehaviour {
         //Debug.Log("Speed: "+ parameters.speed);
         //Debug.Log("jumpF: "+ parameters.jumpForce);
     }
-    
     #region Actions
     void Move(){
         float inputX= Input.GetAxisRaw("Horizontal");
@@ -73,21 +71,25 @@ public class NewBehaviourScript : MonoBehaviour {
                 CharacAniCon.SetTrigger("attack");
                 Invoke("AttackEnd", AttackInterval); // delay N seconds
             }
+
+            else if (Input.GetKeyDown(KeyCode.X)==true){
+                canAttack=false;
+                canSkill=false;
+                CharacAniCon.SetTrigger("SkillStart");
+            }
         }
 
     }
 
+#region AttackFunc
     void AttackEnd(){
         canAttack = true;
         isAttack = false;
     }
 
-    void AttackStart(){
-        isAttack = true;
-    }
+    void AttackStart(){ isAttack = true; }
 
-    void Attacking(){
-        Instantiate(AttackBox, AttackLoc.transform.position, AttackLoc.transform.rotation);
-    }
-    #endregion
+    void Attacking(){ Instantiate(AttackBox, AttackLoc.transform.position, AttackLoc.transform.rotation); }
+#endregion
+#endregion
 }
