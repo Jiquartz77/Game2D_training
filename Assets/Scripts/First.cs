@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Xml.Serialization;
 using UnityEngine;
 
 public class NewBehaviourScript : MonoBehaviour {
@@ -9,8 +8,10 @@ public class NewBehaviourScript : MonoBehaviour {
     public float speed =4.0f;
     public float jumpForce = 4.5f;
     public float AttackInterval = 0.8f;
+    public float SKillRead = 0.8f;
     public bool isAttack =false;
     public bool canAttack =true;
+    public bool canSkill =true;
 
     [Header("Components")]
     public Rigidbody2D CharacRigid;
@@ -73,9 +74,14 @@ public class NewBehaviourScript : MonoBehaviour {
             }
 
             else if (Input.GetKeyDown(KeyCode.X)==true){
-                canAttack=false;
-                canSkill=false;
-                CharacAniCon.SetTrigger("SkillStart");
+                if (canSkill == true){
+                    canAttack=false;
+                    canSkill=false;
+                    CharacAniCon.SetTrigger("SkillStart");
+                    Invoke("SkillEnd", SkillRead);
+                    AttackStart();
+                    SkillEffectStart();
+                }
             }
         }
 
@@ -91,5 +97,19 @@ public class NewBehaviourScript : MonoBehaviour {
 
     void Attacking(){ Instantiate(AttackBox, AttackLoc.transform.position, AttackLoc.transform.rotation); }
 #endregion
+
+#region  SkillFunc
+    //public void SkillStart(){ canSkill =false; canAttack = false; }
+
+    void SkillEnd(){
+        Instantiate(SKillBox, SkillLocation.transform.position, SkillLocation.transform.rotation);
+        CharacAniCon.SetTrigger("SkillStart");
+        Invoke("SkillEnd", SkillRead);
+    }
+
+    public void SkillEffectStart(){ SkillEffect.setActive(true); }
+    public void SkillEffectEnd(){ SkillEffect.setActive(false); }
+#endregion
+
 #endregion
 }
