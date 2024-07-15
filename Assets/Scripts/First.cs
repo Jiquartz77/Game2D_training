@@ -22,6 +22,7 @@ public class NewBehaviourScript : MonoBehaviour {
 
     void Start() {
         Application.targetFrameRate =60;
+        Console.WriteLine("Hello World!");
     }
     // Update is called once per frame
     void Update() {
@@ -78,9 +79,9 @@ public class NewBehaviourScript : MonoBehaviour {
                     canAttack=false;
                     canSkill=false;
                     CharacAniCon.SetTrigger("SkillStart");
-                    Invoke("SkillEnd", SkillRead);
+                    Invoke("SkillEnd", SKillRead);
                     AttackStart();
-                    SkillEffectStart();
+                    //SkillEffectStart();
                 }
             }
         }
@@ -98,6 +99,7 @@ public class NewBehaviourScript : MonoBehaviour {
     void Attacking(){ Instantiate(AttackBox, AttackLoc.transform.position, AttackLoc.transform.rotation); }
 #endregion
 
+/*
 #region  SkillFunc
     //public void SkillStart(){ canSkill =false; canAttack = false; }
 
@@ -110,6 +112,7 @@ public class NewBehaviourScript : MonoBehaviour {
     public void SkillEffectStart(){ SkillEffect.setActive(true); }
     public void SkillEffectEnd(){ SkillEffect.setActive(false); }
 #endregion
+*/
 
 #endregion
 }
