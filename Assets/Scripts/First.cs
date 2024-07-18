@@ -9,9 +9,11 @@ public class NewBehaviourScript : MonoBehaviour {
     public float jumpForce = 4.5f;
     public float AttackInterval = 0.8f;
     public float SKillRead = 0.8f;
+    public float TeleportTime = 0.8f;
     public bool isAttack =false;
     public bool canAttack =true;
     public bool canSkill =true;
+    public bool canSprint =true;
 
     [Header("Components")]
     public Rigidbody2D CharacRigid;
@@ -84,6 +86,16 @@ public class NewBehaviourScript : MonoBehaviour {
                     //SkillEffectStart();
                 }
             }
+
+            else if (Input.GetKeyDown(KeyCode.LeftShift)==true){
+                if (canSprint == true){
+                    canAttack=false;
+                    canSkill=false;
+                    CharacAniCon.SetTrigger("TeleportStart");
+                    Invoke("TeleportStart", TeleportTime);
+                    AttackStart();
+                    //SprintStart();
+                }
         }
 
     }
@@ -97,22 +109,23 @@ public class NewBehaviourScript : MonoBehaviour {
     void AttackStart(){ isAttack = true; }
 
     void Attacking(){ Instantiate(AttackBox, AttackLoc.transform.position, AttackLoc.transform.rotation); }
-#endregion
+        #endregion
 
-/*
-#region  SkillFunc
-    //public void SkillStart(){ canSkill =false; canAttack = false; }
+        /*
+        #region  SkillFunc
+            //public void SkillStart(){ canSkill =false; canAttack = false; }
 
-    void SkillEnd(){
-        Instantiate(SKillBox, SkillLocation.transform.position, SkillLocation.transform.rotation);
-        CharacAniCon.SetTrigger("SkillStart");
-        Invoke("SkillEnd", SkillRead);
+            void SkillEnd(){
+                Instantiate(SKillBox, SkillLocation.transform.position, SkillLocation.transform.rotation);
+                CharacAniCon.SetTrigger("SkillStart");
+                Invoke("SkillEnd", SkillRead);
+            }
+
+            public void SkillEffectStart(){ SkillEffect.setActive(true); }
+            public void SkillEffectEnd(){ SkillEffect.setActive(false); }
+        #endregion
+        */
+
+        #endregion
     }
-
-    public void SkillEffectStart(){ SkillEffect.setActive(true); }
-    public void SkillEffectEnd(){ SkillEffect.setActive(false); }
-#endregion
-*/
-
-#endregion
-}
+};
