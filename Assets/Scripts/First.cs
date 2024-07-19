@@ -100,15 +100,18 @@ public class NewBehaviourScript : MonoBehaviour {
 
     }
 
-#region AttackFunc
-    void AttackEnd(){
-        canAttack = true;
-        isAttack = false;
-    }
+        #region AttackFunc
+        void AttackEnd()
+        {
+            canAttack = true;
+            isAttack = false;
+        }
 
-    void AttackStart(){ isAttack = true; }
+        void AttackStart() { isAttack = true; }
 
-    void Attacking(){ Instantiate(AttackBox, AttackLoc.transform.position, AttackLoc.transform.rotation); }
+        void Attacking(){
+            Instantiate(AttackBox, AttackLoc.transform.position, AttackLoc.transform.rotation);
+        }
         #endregion
 
         /*
