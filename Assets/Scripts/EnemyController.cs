@@ -8,6 +8,7 @@ public class EnemyController : MonoBehaviour
     public GameObject LocationCenter;
     public GameObject LocationLeft;
     public GameObject LocationRight;
+    public GameObject LocationTarget;
 
     public float DistanceCenter;
     public float DistanceEnemy;
@@ -20,7 +21,13 @@ public class EnemyController : MonoBehaviour
     }
 
     void Update() {
+    }
+
+    public void Distance() {
         DistanceEnemy= Vector3.Distance(transform.position, Player.transform.position);
         DistanceCenter = Vector3.Distance(Player.transform.position, LocationCenter.transform.position);
     }
-}
+
+    public void Move() {
+    }
+};
