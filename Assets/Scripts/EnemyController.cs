@@ -16,11 +16,16 @@ public class EnemyController : MonoBehaviour
     public float DistanceAttack;
 
     private GameObject Player;
+
+    public float MoveSpeed = 2f;
+
     void Start() {
         Player = GameObject.FindGameObjectWithTag("Player");
     }
 
     void Update() {
+        Distance();
+        Move();
     }
 
     public void Distance() {
@@ -29,5 +34,21 @@ public class EnemyController : MonoBehaviour
     }
 
     public void Move() {
+        //LocationTarget = LocationLeft;
+        Vector3 LocationEnd = LocationTarget.transform.position;
+        LocationEnd.y = transform.position.y; //the same Y axis;
+    
+        //Move to the target
+        transform.position = Vector2.MoveTowards(transform.position, LocationEnd,
+         MoveSpeed * Time.deltaTime);
+        
+        // Rotation
+        Vector3 EnemyDirection = (LocationEnd - transform.position).normalized;
+        if (EnemyDirection.x > 0){
+            //transform.rotation = Quaternion.LookRotation(EnemyDirection);
+            transform.rotation = Quaternion.Euler(0, 0 , 0);
+        }else if (EnemyDirection.x < 0 ){
+            transform.rotation = Quaternion.Euler(0, 180, 0);
+        }
     }
 };
