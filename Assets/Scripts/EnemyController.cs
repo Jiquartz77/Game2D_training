@@ -29,6 +29,7 @@ public class EnemyController : MonoBehaviour
     }
 
     public void Distance() {
+        //x-y
         DistanceEnemy= Vector3.Distance(transform.position, Player.transform.position);
         DistanceCenter = Vector3.Distance(Player.transform.position, LocationCenter.transform.position);
     }
