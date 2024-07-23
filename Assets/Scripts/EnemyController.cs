@@ -2,6 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum EnemyPatrol { Center, Left, Right };
+public enum EnemyState {
+    Patrol,
+    MoveToPlayer,
+    Attack,
+    GetHit
+};
+
 public class EnemyController : MonoBehaviour
 {
     [Header("Location")]
@@ -9,6 +17,7 @@ public class EnemyController : MonoBehaviour
     public GameObject LocationLeft;
     public GameObject LocationRight;
     public GameObject LocationTarget;
+    public Animator EnemyAni;
 
     public float DistanceCenter;
     public float DistanceEnemy;
@@ -25,8 +34,23 @@ public class EnemyController : MonoBehaviour
 
     void Update() {
         Distance();
-        Move();
-    }
+        if (EnemyState == EnemyState.Patrol){
+            PatrolMove();
+            if (DistanceCenter <= DistanceWalk){
+                EnemyState = EnemyState.MoveToPlayer;
+            }
+        }
+        else if (EnemyState == EnemyState.MoveToPlayer){
+            //MoveToPlayer();
+            if (DistanceEnemy <= DistanceAttack){
+                EnemyState = EnemyState.Attack;
+            }else if (DistanceEnemy > DistanceAttack){
+                EnemyState = EnemyState.Patrol;
+            }
+        }
+        else if (EnemyState == EnemyState.Attack){
+        }
+ }
 
     public void Distance() {
         //x-y
@@ -34,14 +58,18 @@ public class EnemyController : MonoBehaviour
         DistanceCenter = Vector3.Distance(Player.transform.position, LocationCenter.transform.position);
     }
 
-    public void Move() {
+    public void PatrolMove() {
         //LocationTarget = LocationLeft;
         Vector3 LocationEnd = LocationTarget.transform.position;
         LocationEnd.y = transform.position.y; //the same Y axis;
     
         //Move to the target
         transform.position = Vector2.MoveTowards(transform.position, LocationEnd,
-         MoveSpeed * Time.deltaTime);
+        MoveSpeed * Time.deltaTime);
+
+        if (DistanceEnemy > 0){
+            EnemyAni.SetBool("isRun", true);
+        }
         
         // Rotation
         Vector3 EnemyDirection = (LocationEnd - transform.position).normalized;
