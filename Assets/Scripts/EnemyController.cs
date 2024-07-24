@@ -27,6 +27,7 @@ public class EnemyController : MonoBehaviour
     private GameObject Player;
 
     public float MoveSpeed = 2f;
+    public EnemyState ZombieState = EnemyState.Patrol;
 
     void Start() {
         Player = GameObject.FindGameObjectWithTag("Player");
@@ -34,28 +35,28 @@ public class EnemyController : MonoBehaviour
 
     void Update() {
         Distance();
-        if (EnemyState == EnemyState.Patrol){
+        if (ZombieState == EnemyState.Patrol){
             PatrolMove();
             if (DistanceCenter <= DistanceWalk){
-                EnemyState = EnemyState.MoveToPlayer;
+                ZombieState = EnemyState.MoveToPlayer;
             }
         }
-        else if (EnemyState == EnemyState.MoveToPlayer){
+        else if (ZombieState == EnemyState.MoveToPlayer){
             //MoveToPlayer();
             if (DistanceEnemy <= DistanceAttack){
-                EnemyState = EnemyState.Attack;
+                ZombieState = EnemyState.Attack;
             }else if (DistanceEnemy > DistanceAttack){
-                EnemyState = EnemyState.Patrol;
+                ZombieState = EnemyState.Patrol;
             }
         }
-        else if (EnemyState == EnemyState.Attack){
+        else if (ZombieState == EnemyState.Attack){
         }
  }
 
     public void Distance() {
         //x-y
         DistanceEnemy= Vector3.Distance(transform.position, Player.transform.position);
-        DistanceCenter = Vector3.Distance(Player.transform.position, LocationCenter.transform.position);
+        //DistanceCenter = Vector3.Distance(Player.transform.position, LocationCenter.transform.position);
     }
 
     public void PatrolMove() {
