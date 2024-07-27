@@ -3,4 +3,9 @@ MetroVaniaDemo1/*
 MetroVaniaDemo1/Assets/*
 !MetroVaniaDemo1/Assets/Scripts/
 
+MetroVaniaDemo2/*
+!MetroVaniaDemo2/Assets/
+MetroVaniaDemo2/Assets/*
+!MetroVaniaDemo2/Assets/Scripts/
+
 SpireLikeDemo/
