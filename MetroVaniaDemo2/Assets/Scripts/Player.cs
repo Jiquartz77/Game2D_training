@@ -2,10 +2,9 @@ using UnityEngine;
 using System.Collections;
 
 
-public class PlayerController : MonoBehaviour {
-    [Header("Movement")]
-    [SerializeField] private float horizontalSpeed = 10.0f;
-    [SerializeField] private float jumpForce = 10.0f;
+public class Player : Entity {
+    [Header("Player Movement")]
+    [SerializeField] private float jumpForce = 20.0f;
     [SerializeField] private float xInput ;
     [SerializeField] private float velocity_x;
     [SerializeField] private float dashTimer =0;
@@ -15,35 +14,22 @@ public class PlayerController : MonoBehaviour {
     //[SerializeField] private float dashCoolDownTimer = 0f;
     [SerializeField] private bool  isDashing = false;
 
-    [Header("Attack")]
+    [Header("Player Attack")]
     [SerializeField] private bool isAttacking = false;
     [SerializeField] private int comboCounter = 0;
     [SerializeField] private float comboCounterTimer = 0;
-    [SerializeField] private float comboCounterDuration = 0.5f;
-    private int attackNumber = 3;
+    [SerializeField] private float comboCounterDuration = 0.7f;
+    private readonly int attackNumber = 3;
 
-    
-    private Rigidbody2D rb;
-    private Animator player_AC;
-
-    private int facingDirection = 1;
-    private bool facingRight = true;
-
-    [Header("Collision")]
-    private bool isGrounded;
-    private float groundCheckDistance = 1.9f;
-    [SerializeField] private LayerMask whatIsGround;
-
-    void Start() {
+    protected override void Start() {
         Application.targetFrameRate = 60;
 
         rb = GetComponent<Rigidbody2D>();
-        player_AC = GetComponentInChildren<Animator>();
+        anim = GetComponentInChildren<Animator>();
         velocity_x = rb.velocity.x;
     }
 
-    void Update() {
-
+    protected override void Update() {
         //dashCoolDownTimer -= Time.deltaTime;
 
         dashTimer -= Time.deltaTime;
@@ -53,9 +39,12 @@ public class PlayerController : MonoBehaviour {
 
         velocity_x = rb.velocity.x;  // show vel.x
 
+        //Player
         CheckInput();
-        CollisionChecks();
         AnimatorController();
+
+        //Entity
+        CollisionChecks();
         FacingFlipController();
     }
 
@@ -88,6 +77,7 @@ public class PlayerController : MonoBehaviour {
         if (!isAttacking) {
             if (dashTimer > 0) {
                 rb.velocity = new Vector2(facingDirection * dashSpeed, 0);
+                isDashing =true;
             }
             else {
                 rb.velocity = new Vector2(xInput * horizontalSpeed, rb.velocity.y);
@@ -106,6 +96,7 @@ public class PlayerController : MonoBehaviour {
     private void Jump() {
         if (isGrounded){
             rb.velocity = new Vector2 ( rb.velocity.x, jumpForce);
+            isAttacking =false;
             //rb.AddForce(new Vector2(0, jumpForce));
         }
         //rb.velocity = new Vector2 (rb.velocity.x, jumpForce);
@@ -113,27 +104,12 @@ public class PlayerController : MonoBehaviour {
 
     private void AnimatorController(){
         bool isMoving = (rb.velocity.x != 0);
-        player_AC.SetBool("isMoving", isMoving);
-        player_AC.SetBool("isGrounded", isGrounded);
-        player_AC.SetFloat("yVelocity", rb.velocity.y);
-        player_AC.SetBool("isDashing", dashTimer > 0);
-        player_AC.SetBool("isAttacking", isAttacking);
-        player_AC.SetInteger("comboCounter", comboCounter);
-    }
-
-    private void FacingFlip(){
-        facingDirection = facingDirection * -1;
-        facingRight = !facingRight;
-        transform.Rotate(0, 180, 0);
-    }
-
-    private void FacingFlipController(){
-        if (rb.velocity.x < 0 && facingRight) {
-            FacingFlip();
-        }
-        else if (rb.velocity.x > 0 && !facingRight) {
-            FacingFlip();
-        }
+        anim.SetBool("isMoving", isMoving);
+        anim.SetBool("isGrounded", isGrounded);
+        anim.SetFloat("yVelocity", rb.velocity.y);
+        anim.SetBool("isDashing", dashTimer > 0);
+        anim.SetBool("isAttacking", isAttacking);
+        anim.SetInteger("comboCounter", comboCounter);
     }
 
     public void AttackEnd(){ 
@@ -142,17 +118,14 @@ public class PlayerController : MonoBehaviour {
         comboCounter %= attackNumber;
     }
 
-    private void CollisionChecks(){
-        isGrounded = Physics2D.Raycast(transform.position, Vector2.down, groundCheckDistance, whatIsGround);
-    }
 
-    // private void OnDrawGizmos() { Gizmos.DrawLine(transform.position, new Vector3(transform.position.x, transform.position.y - groundCheckDistance)); }
 
-/*     
-private void FixedUpdate() {
-        if (Input.GetKeyDown(KeyCode.Space)){
-            if (isGrounded) rb.AddForce(transform.up * jumpForce);
+
+    /*     
+    private void FixedUpdate() {
+            if (Input.GetKeyDown(KeyCode.Space)){
+                if (isGrounded) rb.AddForce(transform.up * jumpForce);
+            }
         }
-    }
-*/
+    */
 }

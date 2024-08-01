@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class AniEvents : MonoBehaviour
 {
-    private PlayerController player; 
+    private Player player; 
 
     void Start() {
-        player = GetComponentInParent<PlayerController>();
+        player = GetComponentInParent<Player>();
     }
 
     private void AnimationTrigger() {
