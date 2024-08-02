@@ -12,7 +12,6 @@ public class Player : Entity {
     [SerializeField] private float dashCoolDownDuration = 0.8f;
     [SerializeField] private float dashDuration =0.4f;
     //[SerializeField] private float dashCoolDownTimer = 0f;
-    [SerializeField] private bool  isDashing = false;
 
     [Header("Player Attack")]
     [SerializeField] private bool isAttacking = false;
@@ -77,7 +76,6 @@ public class Player : Entity {
         if (!isAttacking) {
             if (dashTimer > 0) {
                 rb.velocity = new Vector2(facingDirection * dashSpeed, 0);
-                isDashing =true;
             }
             else {
                 rb.velocity = new Vector2(xInput * horizontalSpeed, rb.velocity.y);

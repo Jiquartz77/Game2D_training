@@ -6,6 +6,7 @@ public class Skeleton : Entity {
 
     [Header("Player Detected")]
     [SerializeField] protected float playerCheckDistance;
+    [SerializeField] protected float playerAttackDistance;
     [SerializeField] protected LayerMask whatIsPlayer;
     [SerializeField] protected RaycastHit2D isPlayerDetected;
     [SerializeField] protected float acceleratedSpeed;
@@ -15,6 +16,7 @@ public class Skeleton : Entity {
         horizontalSpeed =2f;
         isGrounded =true;
         playerCheckDistance = 10f;
+        playerAttackDistance = 3f;
         base.Start();
         
         //flip
@@ -36,15 +38,17 @@ public class Skeleton : Entity {
             FacingFlip();
         }
 
-        if (isPlayerDetected == null){
-            rb.velocity = new Vector2(facingDirection * horizontalSpeed, rb.velocity.y );
+        if (!isPlayerDetected) {
+            rb.velocity = new Vector2(facingDirection * horizontalSpeed, rb.velocity.y);
         }
-        else if (isPlayerDetected.distance > playerCheckDistance){
-            rb.velocity = new Vector2(facingDirection * acceleratedSpeed, rb.velocity.y );
+        else if (isPlayerDetected.distance > playerCheckDistance) {
+            rb.velocity = new Vector2(facingDirection * horizontalSpeed, rb.velocity.y); //redundant
+        }
+        else if (isPlayerDetected.distance < playerCheckDistance && isPlayerDetected.distance > playerAttackDistance) {
+            rb.velocity = new Vector2(facingDirection * acceleratedSpeed, rb.velocity.y);
             Debug.Log("I see you!");
         }
-        else {
-            //isAttacking = true;
+        else if (isPlayerDetected.distance < playerAttackDistance) {
             Debug.Log("Attack!");
         }
     }
@@ -52,7 +56,7 @@ public class Skeleton : Entity {
     protected override void CollisionChecks(){
         base.CollisionChecks();
         isPlayerDetected = Physics2D.Raycast(transform.position, Vector2.right , playerCheckDistance * facingDirection, whatIsPlayer);
-        //Debug.DrawLine(transform.position, new Vector3 (transform.position.x + playerCheckDistance * facingDirection, transform.position.y), Color.green);
+        Debug.DrawLine(transform.position, new Vector3 (transform.position.x + playerCheckDistance * facingDirection, transform.position.y), Color.green);
     }
 
     protected override void OnDrawGizmos() {
