@@ -23,6 +23,8 @@ public class PlayerState {
 
     public virtual void Update(){
         xInput = Input.GetAxis("Horizontal");
+        player.anim.SetFloat("yVelocity", rb.velocity.y);
+
         Debug.Log("In " + animBoolName);
     }
 

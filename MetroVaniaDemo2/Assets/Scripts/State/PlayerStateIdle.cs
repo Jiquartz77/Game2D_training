@@ -1,5 +1,5 @@
 
-public class PlayerStateIdle : PlayerState
+public class PlayerStateIdle : PlayerStateGround
 {
     public PlayerStateIdle(PlayerStateMachine stateMachine, Player player, string animBoolName) 
     : base(stateMachine, player, animBoolName) {
