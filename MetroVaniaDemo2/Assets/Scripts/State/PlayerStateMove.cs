@@ -11,13 +11,15 @@ public class PlayerStateMove : PlayerStateGround
     }
 
     public override void Update() {
-        player.SetVelocity(xInput * player.horizontalSpeed, rb.velocity.y); 
+        base.Update();
 
-        if (xInput < float.Epsilon && xInput> -float.Epsilon){
+        //xIn ==0
+        if (xInput < float.Epsilon && xInput> -float.Epsilon && player.IsGroundDetected()){
             stateMachine.ChangeState(player.stateIdle);
         }
 
-        base.Update();
+        player.SetVelocity(xInput * player.horizontalSpeed, rb.velocity.y); 
+        //player.SetVelocity(player.facingDirection * player.horizontalSpeed, rb.velocity.y); 
     }
 
     public override void Exit() {

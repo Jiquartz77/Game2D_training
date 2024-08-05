@@ -1,5 +1,7 @@
 //using UnityEngine;
 
+using UnityEngine;
+
 public class PlayerStateAir : PlayerState
 {
     public PlayerStateAir(PlayerStateMachine stateMachine, Player player, string animBoolName) : base(stateMachine, player, animBoolName) {
@@ -12,7 +14,9 @@ public class PlayerStateAir : PlayerState
     public override void Update() {
         base.Update();
 
-        if (rb.velocity.y <= float.Epsilon && rb.velocity.y >= -float.Epsilon) {
+        player.SetVelocity(xInput * player.horizontalSpeed * 0.8f, rb.velocity.y);
+
+        if (rb.velocity.y <= float.Epsilon && rb.velocity.y >= -float.Epsilon && player.IsGroundDetected()) {
             stateMachine.ChangeState(player.stateIdle);
         }
     }

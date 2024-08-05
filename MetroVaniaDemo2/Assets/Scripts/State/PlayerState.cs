@@ -6,8 +6,10 @@ public class PlayerState {
     protected Player player;
     private string animBoolName;
 
+    //Other Properties
     protected Rigidbody2D rb;
     protected float xInput;
+    protected static float stateTimer;
 
     public PlayerState(PlayerStateMachine stateMachine, Player player, string animBoolName) {
         this.stateMachine = stateMachine;
@@ -18,12 +20,15 @@ public class PlayerState {
     public virtual void Enter(){
         player.anim.SetBool(animBoolName, true);
         rb = player.rb;
+        stateTimer = 0;
         Debug.Log("Enter " + animBoolName);
     }
 
     public virtual void Update(){
         xInput = Input.GetAxis("Horizontal");
-        player.anim.SetFloat("yVelocity", rb.velocity.y);
+
+        stateTimer -= Time.deltaTime;
+        stateTimer %=100;
 
         Debug.Log("In " + animBoolName);
     }
