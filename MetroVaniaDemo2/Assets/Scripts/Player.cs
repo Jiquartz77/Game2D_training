@@ -9,6 +9,8 @@ public class Player :MonoBehaviour{
     public PlayerStateJump stateJump{get; private set;}
     public PlayerStateAir stateAir{get; private set;}
     public PlayerStateDash stateDash{get; private set;}
+    public PlayerStateWallSlide stateWallSlide{get; private set;}
+    public PlayerStateWallJump stateWallJump{get; private set;}
     
     public Animator anim {get; private set;}
     public Rigidbody2D rb {get; private set;}
@@ -16,8 +18,10 @@ public class Player :MonoBehaviour{
     [Header("Movement")]
     public readonly float horizontalSpeed =8f;
     public readonly float dashSpeed = 15f;
+    public readonly float wallSlideRatio =0.8f;
     public readonly float dashDuration = 0.6f;
     public readonly float dashCooldown = 1.2f;
+    public readonly float wallJumpDuration = 0.4f;
     protected float dashCooldownTimer = 0f;
     public float jumpForce = 25.0f;
     public float vX ;
@@ -43,6 +47,8 @@ public class Player :MonoBehaviour{
         stateJump = new PlayerStateJump(stateMachine, this, "isJump"); 
         stateAir = new PlayerStateAir(stateMachine, this, "isAir"); 
         stateDash = new PlayerStateDash(stateMachine, this, "isDash"); 
+        stateWallSlide = new PlayerStateWallSlide(stateMachine, this, "isWallSlide"); 
+        stateWallJump = new PlayerStateWallJump(stateMachine, this, "isJump"); 
 
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponentInChildren<Animator>();
@@ -56,10 +62,11 @@ public class Player :MonoBehaviour{
     }
 
     private void Update() {
-        vX=rb.velocity.x; vY=dashCooldownTimer;  // show velocity
+        vX=rb.velocity.x; vY=rb.velocity.y;  // show velocity
 
         dashCooldownTimer -=Time.deltaTime;
         dashCooldownTimer %= 100;
+
         stateMachine.currentState.Update();
         CheckInput();
     }
@@ -89,9 +96,11 @@ public class Player :MonoBehaviour{
         Debug.DrawLine(wallCheck.position, wallCheck.position + facingDirection * wallCheckDistance * Vector3.right, Color.green);
     }
 
+    public void AnimationTrigger() => stateMachine.currentState.AnimationFinishTrigger();
     public bool IsGroundDetected() => Physics2D.Raycast(groundCheck.position, Vector2.down, groundCheckDistance, whatIsGround);
-    public bool IsWallDetected() => Physics2D.Raycast(wallCheck.position, Vector2.down, wallCheckDistance, whatIsWall);
+    public bool IsWallDetected() => Physics2D.Raycast(wallCheck.position, Vector2.right* facingDirection, wallCheckDistance, whatIsWall);
 
+    #region Flip
     public void Flip() {
         isFacingRight = !isFacingRight;
         facingDirection *= -1;
@@ -99,10 +108,16 @@ public class Player :MonoBehaviour{
     }
 
     public void FlipController(float x) {
+        //x==0, skip
+        if (x <=float.Epsilon && x>= -float.Epsilon){
+            return;
+        }
+
         if (x < 0 && isFacingRight){
             Flip();
         }else if (x > 0 && !isFacingRight){
             Flip();
         }
     }
+    #endregion
 }

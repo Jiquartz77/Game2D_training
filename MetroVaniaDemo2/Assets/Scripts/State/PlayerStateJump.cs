@@ -16,7 +16,6 @@ public class PlayerStateJump : PlayerStateAir
 
     public override void Update() {
         base.Update();
-        player.anim.SetFloat("yVelocity", rb.velocity.y);
 
         if (rb.velocity.y< -float.Epsilon){
             stateMachine.ChangeState(player.stateAir);

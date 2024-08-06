@@ -16,8 +16,16 @@ public class PlayerStateAir : PlayerState
 
         player.SetVelocity(xInput * player.horizontalSpeed * 0.8f, rb.velocity.y);
 
+        //vY ==0
         if (rb.velocity.y <= float.Epsilon && rb.velocity.y >= -float.Epsilon && player.IsGroundDetected()) {
             stateMachine.ChangeState(player.stateIdle);
+        }
+        else if (player.IsWallDetected() ){
+            Debug.Log("wall detected");
+
+            if ((xInput>0)&&(player.facingDirection>0) || (xInput<0)&&(player.facingDirection<0)){
+                stateMachine.ChangeState(player.stateWallSlide);
+            }
         }
     }
 

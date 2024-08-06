@@ -1,4 +1,6 @@
 
+using System.Data.Common;
+
 public class PlayerStateMove : PlayerStateGround
 {
 
@@ -13,12 +15,14 @@ public class PlayerStateMove : PlayerStateGround
     public override void Update() {
         base.Update();
 
-        //xIn ==0
-        if (xInput < float.Epsilon && xInput> -float.Epsilon && player.IsGroundDetected()){
-            stateMachine.ChangeState(player.stateIdle);
-        }
-
         player.SetVelocity(xInput * player.horizontalSpeed, rb.velocity.y); 
+
+        if (player.IsGroundDetected()){
+            //xIn ==0
+            if (xInput < float.Epsilon && xInput> -float.Epsilon || player.IsWallDetected()){
+                stateMachine.ChangeState(player.stateIdle);
+            }
+        }
         //player.SetVelocity(player.facingDirection * player.horizontalSpeed, rb.velocity.y); 
     }
 

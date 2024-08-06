@@ -13,8 +13,13 @@ public class PlayerStateDash : PlayerState {
 
     public override void Update() {
         base.Update();
-        player.anim.SetFloat("xVelocity", rb.velocity.x);
+
         player.SetVelocity(rb.velocity.x, 0);
+
+        if (player.IsWallDetected()){
+            stateMachine.ChangeState(player.stateWallSlide);
+            return;
+        }
 
         if (stateTimer < 0){
             if (!player.IsGroundDetected()){
