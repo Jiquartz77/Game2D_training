@@ -22,6 +22,7 @@ public class Player :MonoBehaviour{
     public readonly float dashDuration = 0.6f;
     public readonly float dashCooldown = 1.2f;
     public readonly float wallJumpDuration = 0.4f;
+    public readonly float wallJumpSpeed = 7f;
     protected float dashCooldownTimer = 0f;
     public float jumpForce = 25.0f;
     public float vX ;
