@@ -20,6 +20,9 @@ public class PlayerStateGround : PlayerState
         if (Input.GetKeyDown(KeyCode.Space) && player.IsGroundDetected()) {
             stateMachine.ChangeState(player.stateJump);
         }
+        else if (Input.GetKeyDown(KeyCode.Mouse0)){
+            stateMachine.ChangeState(player.statePrimaryAttack);
+        }
     }
 
     public override void Exit() {

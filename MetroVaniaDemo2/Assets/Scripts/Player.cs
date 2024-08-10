@@ -1,8 +1,10 @@
+using System.Collections;
 using System.Threading;
 using UnityEditor.Callbacks;
 using UnityEngine;
 
 public class Player :MonoBehaviour{
+    #region "States"
     public PlayerStateMachine stateMachine{get; private set;}
     public PlayerStateIdle stateIdle{get; private set;}
     public PlayerStateMove stateMove{get; private set;}
@@ -11,9 +13,12 @@ public class Player :MonoBehaviour{
     public PlayerStateDash stateDash{get; private set;}
     public PlayerStateWallSlide stateWallSlide{get; private set;}
     public PlayerStateWallJump stateWallJump{get; private set;}
+    public PlayerPrimaryAttack statePrimaryAttack {get; private set;}
+    #endregion
     
     public Animator anim {get; private set;}
     public Rigidbody2D rb {get; private set;}
+    public bool isBusy {get; private set;}
     
     [Header("Movement")]
     public readonly float horizontalSpeed =8f;
@@ -39,6 +44,9 @@ public class Player :MonoBehaviour{
     public float groundCheckDistance =0.2f;
     public float wallCheckDistance =0.5f;
 
+    
+    public Vector2[] attackMovement;
+
     private void Awake() {
         Application.targetFrameRate =90;
 
@@ -50,6 +58,7 @@ public class Player :MonoBehaviour{
         stateDash = new PlayerStateDash(stateMachine, this, "isDash"); 
         stateWallSlide = new PlayerStateWallSlide(stateMachine, this, "isWallSlide"); 
         stateWallJump = new PlayerStateWallJump(stateMachine, this, "isJump"); 
+        statePrimaryAttack = new PlayerPrimaryAttack(stateMachine, this, "isAttack");
 
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponentInChildren<Animator>();
@@ -63,21 +72,22 @@ public class Player :MonoBehaviour{
     }
 
     private void Update() {
-        vX=rb.velocity.x; vY=rb.velocity.y;  // show velocity
-
-        dashCooldownTimer -=Time.deltaTime;
-        dashCooldownTimer %= 100;
+        vX=rb.velocity.x; vY=Time.time;  // show velocity
 
         stateMachine.currentState.Update();
         CheckInput();
     }
 
-    public void SetVelocity(float vx, float vy){
-        rb.velocity = new Vector2(vx, vy);
-        FlipController(rb.velocity.x);
+    public IEnumerator BusyFor(float time){
+        isBusy = true;
+        yield return new WaitForSeconds(time);
+        isBusy = false;
     }
 
     private void CheckInput(){
+        dashCooldownTimer -=Time.deltaTime;
+        dashCooldownTimer %= 100;
+        //dash
         if (Input.GetKeyDown(KeyCode.LeftShift)){
             inputDirection = Input.GetAxisRaw("Horizontal") ;
 
@@ -92,14 +102,26 @@ public class Player :MonoBehaviour{
         }
     }
 
+    #region Velocity
+    public void SetVelocityZero() => rb.velocity = Vector2.zero;
+
+    public void SetVelocity(float vx, float vy){
+        rb.velocity = new Vector2(vx, vy);
+        FlipController(rb.velocity.x);
+    }
+    #endregion
+
+    public void AnimationTrigger() => stateMachine.currentState.AnimationFinishTrigger();
+
+    #region Collision Detection
+    public bool IsGroundDetected() => Physics2D.Raycast(groundCheck.position, Vector2.down, groundCheckDistance, whatIsGround);
+    public bool IsWallDetected() => Physics2D.Raycast(wallCheck.position, Vector2.right* facingDirection, wallCheckDistance, whatIsWall);
+
     private void OnDrawGizmos() {
         Debug.DrawLine(groundCheck.position, groundCheck.position + Vector3.down * groundCheckDistance, Color.green);
         Debug.DrawLine(wallCheck.position, wallCheck.position + facingDirection * wallCheckDistance * Vector3.right, Color.green);
     }
-
-    public void AnimationTrigger() => stateMachine.currentState.AnimationFinishTrigger();
-    public bool IsGroundDetected() => Physics2D.Raycast(groundCheck.position, Vector2.down, groundCheckDistance, whatIsGround);
-    public bool IsWallDetected() => Physics2D.Raycast(wallCheck.position, Vector2.right* facingDirection, wallCheckDistance, whatIsWall);
+    #endregion
 
     #region Flip
     public void Flip() {
