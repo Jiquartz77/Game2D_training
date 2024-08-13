@@ -10,14 +10,14 @@ public class PlayerStateJump : PlayerStateAir
     public override void Enter() {
         base.Enter();
 
-        player.SetVelocity( rb.velocity.x, base.player.jumpForce ); 
+        player.SetVelocity( rb.velocity.x, player.jumpForce ); 
         //rb.velocity = new Vector2(rb.velocity.x, player.jumpForce);
     }
 
     public override void Update() {
         base.Update();
 
-        if (rb.velocity.y< -float.Epsilon){
+        if (rb.velocity.y< 0){
             stateMachine.ChangeState(player.stateAir);
         }
 

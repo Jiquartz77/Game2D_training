@@ -2,13 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
-{
-    void Start() {
-        
+public class Enemy : Entity {
+    protected override void Start() {
     }
 
-    void Update() {
+    protected override void Update() {
         
     }
 }

@@ -13,6 +13,7 @@ public class PlayerStateGround : PlayerState
 
     public override void Update() {
         base.Update();
+
         if (! player.IsGroundDetected()){
             stateMachine.ChangeState(player.stateAir);
         }
