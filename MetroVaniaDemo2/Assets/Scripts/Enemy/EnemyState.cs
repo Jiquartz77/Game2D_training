@@ -14,6 +14,7 @@ public class EnemyState {
 
     public EnemyState(Enemy enemyBase, EnemyStateMachine stateMachine,
      string animBoolName) {
+
         this.enemyBase = enemyBase;
         this.animBoolName = animBoolName;
         this. stateMachine = stateMachine;
