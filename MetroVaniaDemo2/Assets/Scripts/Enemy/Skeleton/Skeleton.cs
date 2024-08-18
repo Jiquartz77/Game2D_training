@@ -4,21 +4,24 @@ using UnityEngine;
 
 public class EnemySkeleton : Enemy {
 
-    SkeletonStateIdle stateIdle;
-    SkeletonStateWalk stateWalk;
-    //SkeletonStateReact stateReact;
-    //SkeletonStateAttack stateAttack;
+    public SkeletonStateIdle stateIdle {get; private set;}
+    public SkeletonStateMove stateMove {get; private set;}
+    public SkeletonStateNotice stateNotice {get; private set;}
+
+    [Header("Movement")]
+    public float moveSpeed = 2f;
+    public float timeIdle = 0.8f;
 
     protected override void Awake() {
         base.Awake();
-
-        stateIdle = new SkeletonStateIdle(this, stateMachine, "isIdle");
-        stateWalk = new SkeletonStateWalk(this, stateMachine, "isWalk");
+        stateIdle = new SkeletonStateIdle(this, stateMachine, "isIdle", this);
+        stateMove = new SkeletonStateMove(this, stateMachine, "isMove", this);
+        stateNotice = new SkeletonStateNotice(this, stateMachine, "isNotice", this);
     }
 
     protected override void Start() {
-        stateMachine.Initialize(stateIdle);
         base.Start();
+        stateMachine.Initialize(stateIdle);
     }
 
     protected override void Update() {

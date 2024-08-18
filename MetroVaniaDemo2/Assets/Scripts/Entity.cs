@@ -43,7 +43,7 @@ public class Entity : MonoBehaviour {
     public bool IsGroundDetected() => Physics2D.Raycast(groundCheck.position, Vector2.down, groundCheckDistance, whatIsGround);
     public bool IsWallDetected() => Physics2D.Raycast(wallCheck.position, Vector2.right* facingDirection, wallCheckDistance, whatIsWall);
 
-    private void OnDrawGizmos() {
+    protected virtual void OnDrawGizmos() {
         Debug.DrawLine(groundCheck.position, groundCheck.position + Vector3.down * groundCheckDistance, Color.green);
         Debug.DrawLine(wallCheck.position, wallCheck.position + facingDirection * wallCheckDistance * Vector3.right, Color.green);
     }

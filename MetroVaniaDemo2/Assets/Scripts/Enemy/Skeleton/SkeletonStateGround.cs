@@ -4,10 +4,26 @@ using UnityEngine;
 
 public class SkeletonStateGround : EnemyState
 {
-    EnemySkeleton enemy;
+    protected EnemySkeleton enemy;
 
     public SkeletonStateGround(Enemy enemyBase, EnemyStateMachine stateMachine, string animBoolName, EnemySkeleton _enemy) : 
     base(enemyBase, stateMachine, animBoolName) { 
         this.enemy = _enemy;
+    }
+    
+    public override void Enter() {
+        base.Enter();
+    }
+
+    public override void Update() {
+        base.Update();
+
+        if (!enemy.IsPlayerDetected() ){
+            stateMachine.ChangeState(enemy.stateNotice);
+        }
+    }
+
+    public override void Exit() {
+        base.Exit();
     }
 }
