@@ -25,7 +25,7 @@ public class PlayerState {
         stateTimer = 0;
         triggerCalled = false;
 
-        Debug.Log("Enter " + animBoolName);
+        //Debug.Log("Enter " + animBoolName);
     }
 
     public virtual void Update(){
@@ -38,12 +38,12 @@ public class PlayerState {
 
         stateTimer -= Time.deltaTime; stateTimer %=100;
 
-        Debug.Log("In " + animBoolName);
+        //Debug.Log("In " + animBoolName);
     }
 
     public virtual void Exit(){
         player.anim.SetBool(animBoolName, false);
-        Debug.Log("Exit " + animBoolName);
+        //Debug.Log("Exit " + animBoolName);
     }
 
     public virtual void AnimationFinishTrigger(){

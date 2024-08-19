@@ -24,11 +24,20 @@ public class SkeletonStateNotice : SkeletonStateGround {
         else if (player.position.x < enemy.transform.position.x){
             moveDir = -1;
         }
-        enemy.SetVelocity(enemy.moveSpeed * moveDir, rb.velocity.y);
-        
-        if (!enemy.IsPlayerDetected()){
-            stateMachine.ChangeState(enemy.stateIdle);
+        else{
+            moveDir =0; //above
         }
+
+
+        if (enemy.IsPlayerDetected()) {
+            stateTimer = enemy.timeAttack;
+            if (enemy.IsPlayerDetected().distance < enemy.playerDistanceAttack) {
+                stateMachine.ChangeState(enemy.stateAttack);
+            }
+        }
+
+
+        enemy.SetVelocity(enemy.moveSpeed * moveDir, rb.velocity.y);
     }
 
     public override void Exit() {

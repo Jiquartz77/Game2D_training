@@ -24,14 +24,22 @@ public class EnemyState {
         triggerCalled =false;
         rb = enemyBase.rb;
         enemyBase.anim.SetBool(animBoolName, true);
+
+        Debug.Log("Enter " + animBoolName);
     }
 
     public virtual void Update() {
         stateTimer -= Time.deltaTime;
+        Debug.Log("In " + animBoolName);
     }
     
     public virtual void Exit() {
         triggerCalled =true;
         enemyBase.anim.SetBool(animBoolName, true);
+        Debug.Log("Exit " + animBoolName);
+    }
+
+    public virtual void AnimationFinishTrigger() {
+        triggerCalled = true;
     }
 }
