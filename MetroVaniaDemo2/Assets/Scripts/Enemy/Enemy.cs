@@ -6,7 +6,7 @@ public class Enemy : Entity {
 
     public EnemyStateMachine stateMachine{get; private set;}
 
-    protected float playerDistance = 15f;
+    public readonly float playerDistanceNotice = 15f;
     public readonly float playerDistanceAttack = 5f;
     [SerializeField] protected LayerMask whatIsPlayer;
 
@@ -25,11 +25,11 @@ public class Enemy : Entity {
     }
 
     public virtual RaycastHit2D IsPlayerDetected() => Physics2D.Raycast(transform.position, facingDirection * Vector2.right,
-     playerDistance, whatIsPlayer);
+     playerDistanceNotice, whatIsPlayer);
 
     protected override void OnDrawGizmos() {
         base.OnDrawGizmos();
-        Debug.DrawLine(transform.position, transform.position + facingDirection * Vector3.right * playerDistance, Color.red); // player detection
+        Debug.DrawLine(transform.position, transform.position + facingDirection * Vector3.right * playerDistanceNotice, Color.red); // player detection
     }
 
     public virtual void EnemyAnimationTrigger() {

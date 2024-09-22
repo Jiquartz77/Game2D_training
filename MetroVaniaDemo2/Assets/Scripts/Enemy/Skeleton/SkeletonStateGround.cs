@@ -18,7 +18,8 @@ public class SkeletonStateGround : EnemyState
     public override void Update() {
         base.Update();
 
-        if (enemy.IsPlayerDetected() || enemy.IsPlayerDetected().distance > enemy.playerDistanceAttack){
+        if (enemy.IsPlayerDetected() || (enemy.IsPlayerDetected().distance < enemy.playerDistanceNotice && enemy.IsPlayerDetected().distance > 0)){
+            //Debug.Log(enemy.IsPlayerDetected().distance);
             stateMachine.ChangeState(enemy.stateNotice);
         }
 

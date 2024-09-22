@@ -34,8 +34,8 @@ public class EnemyState {
     }
     
     public virtual void Exit() {
-        triggerCalled =true;
-        enemyBase.anim.SetBool(animBoolName, true);
+        //triggerCalled =true;
+        enemyBase.anim.SetBool(animBoolName, false);
         Debug.Log("Exit " + animBoolName);
     }
 

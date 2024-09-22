@@ -2,33 +2,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SkeletonStateAttack : SkeletonStateGround
+public class SkeletonStateAttack : EnemyState
 {
-    //protected EnemySkeleton enemy;
+    protected EnemySkeleton enemy;
 
     public SkeletonStateAttack(Enemy enemyBase, EnemyStateMachine stateMachine, string animBoolName, EnemySkeleton _enemy) : 
-    base(enemyBase, stateMachine, animBoolName, _enemy) { 
-        //this.enemy = _enemy;
+    base(enemyBase, stateMachine, animBoolName) { 
+        this.enemy = _enemy;
     }
     
     public override void Enter() {
         base.Enter();
-        enemy.SetVelocityZero();
         stateTimer = enemy.timeAttack;
     }
 
     public override void Update() {
         base.Update();
 
-        if (stateTimer < 0){
-            stateMachine.ChangeState(enemy.stateMove);
+        //if (stateTimer < 0){ stateMachine.ChangeState(enemy.stateMove); }
+        //if (!enemy.IsPlayerDetected()){ stateMachine.ChangeState(enemy.stateMove); }
+        
+        enemy.SetVelocityZero();
+        if (triggerCalled){
+            stateMachine.ChangeState(enemy.stateNotice);
         }
-
-        if (!enemy.IsPlayerDetected()){
-            stateMachine.ChangeState(enemy.stateMove);
-        }
-
-
     }
 
     public override void Exit() {

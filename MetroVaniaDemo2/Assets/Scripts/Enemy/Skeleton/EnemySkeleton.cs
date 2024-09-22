@@ -13,12 +13,15 @@ public class EnemySkeleton : Enemy {
     public float moveSpeed = 2f;
     public readonly float timeIdle = 0.8f;
     public readonly float timeAttack = 0.8f;
+    public readonly float timeNotice = 0.8f;
+    public readonly float distanceIgnore = 8f;
+    public readonly float distanceNotice = 5f; 
 
     protected override void Awake() {
         base.Awake();
         stateIdle = new SkeletonStateIdle(this, stateMachine, "isIdle", this);
         stateMove = new SkeletonStateMove(this, stateMachine, "isMove", this);
-        stateNotice = new SkeletonStateNotice(this, stateMachine, "isMove", this);
+        stateNotice = new SkeletonStateNotice(this, stateMachine, "isNotice", this);
         stateAttack = new SkeletonStateAttack(this, stateMachine, "isAttack", this);
     }
 
