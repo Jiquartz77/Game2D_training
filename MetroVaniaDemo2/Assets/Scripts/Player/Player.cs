@@ -3,6 +3,9 @@ using Unity.VisualScripting;
 using UnityEngine;
 
 public class Player :Entity{
+    [Header("Attack")]
+    public Vector2[] attackMovement;
+
     #region "States"
     public PlayerStateMachine stateMachine{get; private set;}
     public PlayerStateIdle stateIdle{get; private set;}
@@ -30,8 +33,6 @@ public class Player :Entity{
     public float vX ;
     public float vY ;
     public float inputDirection {get; private set;}
-
-    public Vector2[] attackMovement;
 
     protected override void Awake() {
         base.Awake();

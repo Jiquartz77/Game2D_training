@@ -24,12 +24,14 @@ public class SkeletonStateNotice : EnemyState {
 
         if (enemy.IsPlayerDetected()) {
             stateTimer = enemy.timeNotice;
-            if (enemy.IsPlayerDetected().distance < enemy.playerDistanceAttack) {
+            if (enemy.IsPlayerDetected().distance < enemy.distanceAttack) {
                 stateMachine.ChangeState(enemy.stateAttack);
             }
         }else{
-            if (stateTimer < 0 || Vector2.Distance(player.transform.position, enemy.transform.position) > enemy.distanceIgnore)
+            //if (stateTimer < 0 || Vector2.Distance(player.transform.position, enemy.transform.position) > enemy.distanceIgnore)
+            if (stateTimer <0 || enemy.IsPlayerDetected().distance > enemy.distanceNotice) {
                 stateMachine.ChangeState(enemy.stateIdle);
+            }
         }
 
         if (player.position.x > enemy.transform.position.x){

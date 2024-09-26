@@ -14,7 +14,7 @@ public class EnemySkeleton : Enemy {
     public readonly float timeIdle = 0.8f;
     public readonly float timeAttack = 0.8f;
     public readonly float timeNotice = 0.8f;
-    public readonly float distanceIgnore = 8f;
+    public readonly float distanceAttack = 2f;
     public readonly float distanceNotice = 5f; 
 
     protected override void Awake() {

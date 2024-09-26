@@ -5,6 +5,10 @@ public class Entity : MonoBehaviour {
     public Animator anim {get; private set;}
     public Rigidbody2D rb {get; private set;}
 
+    [Header("Attack")]
+    public Transform attackCheck;
+    public float attackCheckRadius;
+
     [Header("Collision Detection")]
     public LayerMask whatIsGround;
     public LayerMask whatIsWall;
