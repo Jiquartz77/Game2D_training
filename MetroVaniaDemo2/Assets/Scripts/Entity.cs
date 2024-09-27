@@ -7,7 +7,7 @@ public class Entity : MonoBehaviour {
 
     [Header("Attack")]
     public Transform attackCheck;
-    public float attackCheckRadius;
+    public float attackCheckRadius = 1.2f;
 
     [Header("Collision Detection")]
     public LayerMask whatIsGround;
@@ -34,6 +34,10 @@ public class Entity : MonoBehaviour {
     protected virtual void Update(){
     }
 
+    public virtual void Damage(){
+        Debug.Log(gameObject.name + "was damaged.");
+    }
+
     #region Velocity
     public void SetVelocityZero() => rb.velocity = Vector2.zero;
 
@@ -50,6 +54,7 @@ public class Entity : MonoBehaviour {
     protected virtual void OnDrawGizmos() {
         Debug.DrawLine(groundCheck.position, groundCheck.position + Vector3.down * groundCheckDistance, Color.green);
         Debug.DrawLine(wallCheck.position, wallCheck.position + facingDirection * wallCheckDistance * Vector3.right, Color.green);
+        Gizmos.DrawWireSphere(attackCheck.position, attackCheckRadius);
     }
     #endregion
 
