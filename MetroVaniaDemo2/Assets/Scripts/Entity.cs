@@ -7,7 +7,7 @@ public class Entity : MonoBehaviour {
 
     [Header("Attack")]
     public Transform attackCheck;
-    public float attackCheckRadius = 1.2f;
+    public float attackCheckRadius = 0.8f;
 
     [Header("Collision Detection")]
     public LayerMask whatIsGround;
@@ -35,7 +35,8 @@ public class Entity : MonoBehaviour {
     }
 
     public virtual void Damage(){
-        Debug.Log(gameObject.name + "was damaged.");
+        //Monobehavior.gameObject
+        Debug.Log(gameObject.name + " was damaged.");
     }
 
     #region Velocity
