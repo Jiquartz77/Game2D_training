@@ -4,6 +4,7 @@ using UnityEngine;
 public class Entity : MonoBehaviour {
     public Animator anim {get; private set;}
     public Rigidbody2D rb {get; private set;}
+    public EntityFX fx {get; private set;}
 
     [Header("Attack")]
     public Transform attackCheck;
@@ -22,13 +23,15 @@ public class Entity : MonoBehaviour {
     public int facingDirection {get;private set;}
 
     protected virtual void Awake(){
+    }
+
+    protected virtual void Start(){
+        //fx = GetComponentInChildren<EntityFX>();
+        fx = GetComponent<EntityFX>();
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponentInChildren<Animator>();
         facingDirection =1;
         isFacingRight = true;
-    }
-
-    protected virtual void Start(){
     }
 
     protected virtual void Update(){
@@ -36,6 +39,7 @@ public class Entity : MonoBehaviour {
 
     public virtual void Damage(){
         //Monobehavior.gameObject
+        fx.StartCoroutine("FlashFX");
         Debug.Log(gameObject.name + " was damaged.");
     }
 
