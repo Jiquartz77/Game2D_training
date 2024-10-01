@@ -29,7 +29,7 @@ public class Enemy : Entity {
 
     protected override void OnDrawGizmos() {
         base.OnDrawGizmos();
-        Debug.DrawLine(transform.position, transform.position + facingDirection * Vector3.right * playerDistanceNotice, Color.red); // player detection
+        Debug.DrawLine(transform.position, transform.position + facingDirection * playerDistanceNotice * Vector3.right, Color.red); // player detection
     }
 
     public virtual void EnemyAnimationTrigger() {

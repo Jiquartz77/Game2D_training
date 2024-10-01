@@ -15,7 +15,8 @@ public class SkeletonStateNotice : EnemyState {
 
     public override void Enter() {
         base.Enter();
-        player = GameObject.Find("Player").transform;
+        //player = GameObject.Find("Player").transform;
+        player =PlayerManager.instance.player.transform;
         stateTimer = enemy.timeNotice;
     }
 
