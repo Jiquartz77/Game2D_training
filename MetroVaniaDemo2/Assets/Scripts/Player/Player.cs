@@ -70,8 +70,9 @@ public class Player :Entity{
     }
 
     private void CheckInput(){
-        dashCooldownTimer -=Time.deltaTime;
-        dashCooldownTimer %= 100;
+        //dashCooldownTimer -=Time.deltaTime;
+        //dashCooldownTimer %= 100;
+
         //dash
         if (Input.GetKeyDown(KeyCode.LeftShift)){
             inputDirection = Input.GetAxisRaw("Horizontal") ;
@@ -80,8 +81,9 @@ public class Player :Entity{
             if (inputDirection <float.Epsilon && inputDirection > -float.Epsilon){
                 inputDirection =facingDirection;
             }
-            if (dashCooldownTimer< 0){
-                dashCooldownTimer = dashCooldown;
+            //if (dashCooldownTimer< 0){
+            if (SkillManager.instance.skillDash.CanUseSkill()){
+                //dashCooldownTimer = dashCooldown;
                 stateMachine.ChangeState(stateDash);
             }
         }
