@@ -6,8 +6,9 @@ public class PlayerStateDash : PlayerState {
 
     public override void Enter() {
         base.Enter();
-        stateTimer=player.dashDuration;
         
+        SkillManager.instance.clone.CreateClone(player.transform);
+        stateTimer=player.dashDuration;
         player.SetVelocity(player.inputDirection * player.dashSpeed, 0);
     }
 

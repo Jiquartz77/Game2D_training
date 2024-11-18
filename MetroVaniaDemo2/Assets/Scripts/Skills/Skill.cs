@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Skill:MonoBehaviour{
-    [SerializeField] protected float cooldownDash;
+    [SerializeField] protected float cooldownSkill;
     protected float cooldownTimer;
 
     protected void Update(){
@@ -14,7 +14,7 @@ public class Skill:MonoBehaviour{
     public virtual bool CanUseSkill(){
         if (cooldownTimer<0){
             UseSkill();
-            cooldownTimer=cooldownDash;
+            cooldownTimer=cooldownSkill;
             return true;
         }
         Debug.Log("Skill is on cooldown");

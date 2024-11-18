@@ -82,7 +82,7 @@ public class Player :Entity{
                 inputDirection =facingDirection;
             }
             //if (dashCooldownTimer< 0){
-            if (SkillManager.instance.skillDash.CanUseSkill()){
+            if (SkillManager.instance.dash.CanUseSkill()){
                 //dashCooldownTimer = dashCooldown;
                 stateMachine.ChangeState(stateDash);
             }

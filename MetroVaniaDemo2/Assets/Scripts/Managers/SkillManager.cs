@@ -5,7 +5,8 @@ using UnityEngine;
 public class SkillManager : MonoBehaviour {
     public static SkillManager instance;
 
-    public Skill_Dash skillDash {get; private set;}
+    public SkillDash dash {get; private set;}
+    public SkillClone clone {get; private set;}
 
     //SingleTon
     private void Awake() {
@@ -18,6 +19,7 @@ public class SkillManager : MonoBehaviour {
     }
 
     private void Start() {
-        skillDash = GetComponent<Skill_Dash>();
+        dash = GetComponent<SkillDash>();
+        clone = GetComponent<SkillClone>();
     }
 }
