@@ -5,6 +5,7 @@ public class Entity : MonoBehaviour {
     public Animator anim {get; private set;}
     public Rigidbody2D rb {get; private set;}
     public EntityFX fx {get; private set;}
+    public CharacterStats stats {get; private set;}
 
     [Header("Attack")]
     public Transform attackCheck;
@@ -30,6 +31,9 @@ public class Entity : MonoBehaviour {
         fx = GetComponent<EntityFX>();
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponentInChildren<Animator>();
+        stats = GetComponent<CharacterStats>();
+
+
         facingDirection =1;
         isFacingRight = true;
     }

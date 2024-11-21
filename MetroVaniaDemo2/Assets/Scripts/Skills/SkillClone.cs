@@ -6,6 +6,8 @@ public class SkillClone: Skill{
 
     [SerializeField]private GameObject clonePrefab;
     [SerializeField]private float cloneDuration;
+    [Space]
+    [SerializeField]private bool canAttack;
 
     public override void UseSkill(){
         base.UseSkill();
@@ -14,7 +16,7 @@ public class SkillClone: Skill{
 
     public void CreateClone(Transform transform){
         GameObject newClone = Instantiate(clonePrefab);
-        newClone.GetComponent<SkillCloneController>().SetupClone(transform, cloneDuration);
+        newClone.GetComponent<SkillCloneController>().SetupClone(transform, cloneDuration, canAttack);
     }
     
 }
