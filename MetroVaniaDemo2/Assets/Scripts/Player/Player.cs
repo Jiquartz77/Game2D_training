@@ -36,7 +36,9 @@ public class Player :Entity{
 
     protected override void Awake() {
         base.Awake();
+
         Application.targetFrameRate =90;
+        Debug.unityLogger.logEnabled = true;
 
         stateMachine =new PlayerStateMachine();
         stateIdle = new PlayerStateIdle(stateMachine, this, "isIdle"); 

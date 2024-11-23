@@ -4,23 +4,29 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CharacterStats : MonoBehaviour {
-    public int damage;
-    public int maxHP;
+    public Stat strength;
+    public Stat damage;
+    public Stat maxHP;
 
     [SerializeField] private int curHP;
 
-    void Start() {
-        curHP = maxHP;
+    protected virtual void Start() {
+        curHP = maxHP.GetValue();
     }
 
-    public void TakeDamage(int _damage) {
+    public virtual void DoDamage(CharacterStats _target) {
+        int totalDamage = damage.GetValue() + strength.GetValue();
+        _target.TakeDamage(totalDamage);
+    }
+
+    public virtual void TakeDamage(int _damage) {
         curHP -= _damage;
         if (curHP < 0) {
             //Die();
         }
     }
 
-    private void Die() {
+    protected virtual void Die() {
         throw new NotImplementedException();
     }
 }

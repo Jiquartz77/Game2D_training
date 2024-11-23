@@ -3,14 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class Stat {
-    private int baseValue;
+    //private int baseValue;
+    [SerializeField] private int baseValue;
     public List<int> modifiers;
 
     public int GetValue() {
         int finalValue = baseValue;
 
-        for (int m in modifiers){
+        foreach (int m in modifiers){
             finalValue += m;
         }
 
