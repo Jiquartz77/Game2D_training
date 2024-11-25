@@ -13,6 +13,6 @@ public class EnemyStats : CharacterStats {
     }
 
     protected override void Die() {
-        //throw new System.NotImplementedException();
+        //Enemy.Die
     }
 }

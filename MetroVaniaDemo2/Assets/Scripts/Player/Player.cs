@@ -15,6 +15,7 @@ public class Player :Entity{
     public PlayerStateDash stateDash{get; private set;}
     public PlayerStateWallSlide stateWallSlide{get; private set;}
     public PlayerStateWallJump stateWallJump{get; private set;}
+    public PlayerStateDead stateDead {get; private set;}
     public PlayerPrimaryAttack statePrimaryAttack {get; private set;}
     #endregion
     
@@ -48,6 +49,7 @@ public class Player :Entity{
         stateDash = new PlayerStateDash(stateMachine, this, "isDash"); 
         stateWallSlide = new PlayerStateWallSlide(stateMachine, this, "isWallSlide"); 
         stateWallJump = new PlayerStateWallJump(stateMachine, this, "isJump"); 
+        stateDead = new PlayerStateDead(stateMachine, this, "isDead"); 
         statePrimaryAttack = new PlayerPrimaryAttack(stateMachine, this, "isAttack");
 
     }
@@ -63,6 +65,11 @@ public class Player :Entity{
 
         stateMachine.currentState.Update();
         CheckInput();
+    }
+
+    public override void Die() {
+        base.Die();
+        stateMachine.ChangeState(stateDead);
     }
 
     public IEnumerator BusyFor(float time){

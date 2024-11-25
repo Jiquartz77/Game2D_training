@@ -16,6 +16,7 @@ public class PlayerStats : CharacterStats {
     }
 
     protected override void Die() {
-        //throw new System.NotImplementedException();
+        base.Die();
+        player.Die();
     }
 }

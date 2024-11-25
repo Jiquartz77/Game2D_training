@@ -21,12 +21,11 @@ public class CharacterStats : MonoBehaviour {
 
     public virtual void TakeDamage(int _damage) {
         curHP -= _damage;
-        if (curHP < 0) {
-            //Die();
+        if (curHP <= 0) {
+            Die();
         }
     }
 
     protected virtual void Die() {
-        throw new NotImplementedException();
     }
 }
