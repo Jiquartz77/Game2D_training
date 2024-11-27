@@ -61,6 +61,7 @@ public class Player :Entity{
 
     protected override void Update() {
         base.Update();
+
         vX=rb.velocity.x; vY=rb.velocity.y;  // show velocity
 
         stateMachine.currentState.Update();

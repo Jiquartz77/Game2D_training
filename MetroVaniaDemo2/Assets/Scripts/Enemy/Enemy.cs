@@ -9,6 +9,7 @@ public class Enemy : Entity {
     public readonly float playerDistanceNotice = 15f;
     public readonly float playerDistanceAttack = 5f;
     [SerializeField] protected LayerMask whatIsPlayer;
+    public string lastAnimBoolName {get; private set;}
 
     protected override void Awake() {
         base.Awake();
@@ -35,4 +36,6 @@ public class Enemy : Entity {
     public virtual void EnemyAnimationTrigger() {
         stateMachine.currentState.AnimationFinishTrigger();
     }
+
+    public virtual void AssignLastAnimName(string _animBoolName) => lastAnimBoolName = _animBoolName;
 }

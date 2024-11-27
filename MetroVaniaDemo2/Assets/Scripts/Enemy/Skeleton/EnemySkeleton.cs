@@ -8,6 +8,7 @@ public class EnemySkeleton : Enemy {
     public SkeletonStateMove stateMove {get; private set;}
     public SkeletonStateNotice stateNotice {get; private set;}
     public SkeletonStateAttack stateAttack {get; private set;}
+    public SkeletonStateDead stateDead {get; private set;}
 
     [Header("Movement")]
     public float moveSpeed = 2f;
@@ -23,6 +24,7 @@ public class EnemySkeleton : Enemy {
         stateMove = new SkeletonStateMove(this, stateMachine, "isMove", this);
         stateNotice = new SkeletonStateNotice(this, stateMachine, "isNotice", this);
         stateAttack = new SkeletonStateAttack(this, stateMachine, "isAttack", this);
+        stateDead = new SkeletonStateDead(this, stateMachine, "isDead", this);
     }
 
     protected override void Start() {
@@ -32,5 +34,10 @@ public class EnemySkeleton : Enemy {
 
     protected override void Update() {
         base.Update();
+    }
+
+    public override void Die() {
+        base.Die();
+        stateMachine.ChangeState(stateDead);
     }
 }
