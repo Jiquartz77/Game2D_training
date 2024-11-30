@@ -24,6 +24,8 @@ public class Entity : MonoBehaviour {
     protected bool isFacingRight; 
     public int facingDirection {get;private set;}
 
+    public System.Action onFlipped;
+
     protected virtual void Awake(){
     }
 
@@ -77,6 +79,9 @@ public class Entity : MonoBehaviour {
         isFacingRight = !isFacingRight;
         facingDirection *= -1;
         transform.Rotate(0, 180, 0);
+
+        //if (onFlipped != null){ onFlipped(); }
+        //onFlipped.Invoke();
     }
 
     public void FlipController(float x) {
