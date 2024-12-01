@@ -80,7 +80,7 @@ public class Entity : MonoBehaviour {
         facingDirection *= -1;
         transform.Rotate(0, 180, 0);
 
-        //if (onFlipped != null){ onFlipped(); }
+        if (onFlipped != null){ onFlipped(); }
         //onFlipped.Invoke();
     }
 

@@ -14,10 +14,13 @@ public class CharacterStats : MonoBehaviour {
 
     public Stat damage;
 
-    [SerializeField] private int curHP;
+    [SerializeField] public int curHP;
+
+    public System.Action onHealthChanged;
 
     protected virtual void Start() {
         curHP = maxHP.GetValue();
+
     }
 
     public virtual void DoDamage(CharacterStats _target)
@@ -36,6 +39,9 @@ public class CharacterStats : MonoBehaviour {
 
     public virtual void TakeDamage(int _damage) {
         curHP -= _damage;
+
+        DecreaseHealthBy(_damage);
+
         if (curHP <= 0) {
             Die();
         }
@@ -59,5 +65,17 @@ public class CharacterStats : MonoBehaviour {
         }
 
         return false;
+    }
+
+    public virtual int GetMaxHP() {
+        return maxHP.GetValue() + vitality.GetValue() *5;
+    }
+
+    protected virtual void DecreaseHealthBy(int _amount){
+        curHP -= _amount;
+
+        if (onHealthChanged != null){
+            onHealthChanged();
+        }
     }
 }
