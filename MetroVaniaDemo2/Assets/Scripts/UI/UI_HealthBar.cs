@@ -13,7 +13,7 @@ public class UI_HealthBar: MonoBehaviour{
         entity = GetComponentInParent<Entity>();
         rectTransform = GetComponent<RectTransform>();
         stats = GetComponentInParent<CharacterStats>();
-        slider =GetComponent<Slider>();
+        slider =GetComponentInChildren<Slider>();
 
         entity.onFlipped += FlipUI;
         stats.onHealthChanged += UpdateHealthUI;
