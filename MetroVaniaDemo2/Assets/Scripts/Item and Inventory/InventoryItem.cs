@@ -4,7 +4,7 @@ using UnityEngine.Android;
 
 [Serializable]
 
-public class InventoryItem : MonoBehaviour {
+public class InventoryItem{
     public ItemData data;
     public int stackSize;
 

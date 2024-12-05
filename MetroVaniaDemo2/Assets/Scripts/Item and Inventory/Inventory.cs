@@ -41,5 +41,13 @@ public class Inventory : MonoBehaviour {
         }
         }
     }
+
+    private void Update() {
+        if (Input.GetKeyDown(KeyCode.P)) {
+            Debug.Log(inventoryList[inventoryList.Count-1].data.itemName);
+            ItemData drop = inventoryList[inventoryList.Count-1].data;
+            RemoveItem(drop);
+        }
+    }
     
 }
