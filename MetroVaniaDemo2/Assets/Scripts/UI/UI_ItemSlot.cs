@@ -8,12 +8,11 @@ public class UI_ItemSlot : MonoBehaviour {
 
     public InventoryItem item;
 
-    void Start() {
-    //void UpdateSlot() {
-        if (item != null) {
-            itemImage.sprite = item.data.itemIcon;
-            if (item.stackSize > 1) {
-                itemCount.text = item.stackSize.ToString();
+    public void UpdateSlot(InventoryItem _item) {
+        if (_item != null) {
+            itemImage.sprite = _item.data.itemIcon;
+            if (_item.stackSize >= 1) {
+                itemCount.text = _item.stackSize.ToString();
             }else{
                 itemCount.text = "";
             }

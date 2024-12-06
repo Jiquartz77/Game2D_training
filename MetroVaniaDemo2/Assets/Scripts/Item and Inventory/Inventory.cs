@@ -7,6 +7,10 @@ public class Inventory : MonoBehaviour {
     public List<InventoryItem> inventoryList;
     public Dictionary<ItemData, InventoryItem> inventoryDictionary;
 
+    [SerializeField] private Transform inventorySlotParent;
+
+    private UI_ItemSlot[] itemSlots;
+
     private void Awake() {
         if (instance == null) {
             instance = this;
@@ -18,6 +22,15 @@ public class Inventory : MonoBehaviour {
     private void Start() {
         inventoryList = new List<InventoryItem>();
         inventoryDictionary = new Dictionary<ItemData, InventoryItem>();
+
+        itemSlots = inventorySlotParent.GetComponentsInChildren<UI_ItemSlot>();
+        UpdateSlotUI();
+    }
+
+    private void UpdateSlotUI(){
+        for (int i = 0; i < inventoryList.Count; i++) {
+            itemSlots[i].UpdateSlot(inventoryList[i]);
+        }
     }
 
     public void AddItem(ItemData item) {
@@ -28,18 +41,21 @@ public class Inventory : MonoBehaviour {
             inventoryList.Add(newItem);
             inventoryDictionary.Add(item, newItem);
         }
+
+        UpdateSlotUI();
     }
 
     public void RemoveItem(ItemData item) {
-        if (inventoryDictionary.TryGetValue(item, out InventoryItem value) ){
-            if (value.stackSize <=1){
+        if (inventoryDictionary.TryGetValue(item, out InventoryItem value)) {
+            if (value.stackSize <= 1) {
                 inventoryList.Remove(value);
                 inventoryDictionary.Remove(item);
             }
-        else{
-            value.RemoveStack();
+            else {
+                value.RemoveStack();
+            }
         }
-        }
+        UpdateSlotUI();
     }
 
     private void Update() {
