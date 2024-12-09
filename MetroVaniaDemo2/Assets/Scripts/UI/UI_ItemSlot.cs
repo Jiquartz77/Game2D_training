@@ -9,7 +9,10 @@ public class UI_ItemSlot : MonoBehaviour {
     public InventoryItem item;
 
     public void UpdateSlot(InventoryItem _item) {
+
+
         if (_item != null) {
+            itemImage.color = Color.white; //not transparent
             itemImage.sprite = _item.data.itemIcon;
             if (_item.stackSize >= 1) {
                 itemCount.text = _item.stackSize.ToString();
