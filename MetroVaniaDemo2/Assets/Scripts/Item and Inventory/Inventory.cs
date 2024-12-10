@@ -4,12 +4,18 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour {
     public static Inventory instance;
-    public List<InventoryItem> inventoryList;
-    public Dictionary<ItemData, InventoryItem> inventoryDictionary;
+
+    public List<InventoryItem> listInv;
+    public Dictionary<ItemData, InventoryItem> dictInv;
+
+    public List<InventoryItem> listStash;
+    public Dictionary<ItemData, InventoryItem> dictStash;
 
     [SerializeField] private Transform inventorySlotParent;
+    [SerializeField] private Transform stashSlotParent;
 
     private UI_ItemSlot[] itemSlots;
+    private UI_ItemSlot[] stashSlots;
 
     private void Awake() {
         if (instance == null) {
@@ -20,36 +26,66 @@ public class Inventory : MonoBehaviour {
     }
 
     private void Start() {
-        inventoryList = new List<InventoryItem>();
-        inventoryDictionary = new Dictionary<ItemData, InventoryItem>();
+        listInv = new List<InventoryItem>();
+        dictInv = new Dictionary<ItemData, InventoryItem>();
+
+        listStash = new List<InventoryItem>();
+        dictStash = new Dictionary<ItemData, InventoryItem>();
 
         itemSlots = inventorySlotParent.GetComponentsInChildren<UI_ItemSlot>();
+        stashSlots = stashSlotParent.GetComponentsInChildren<UI_ItemSlot>();
         UpdateSlotUI();
     }
 
     private void UpdateSlotUI(){
-        for (int i = 0; i < inventoryList.Count; i++) {
-            itemSlots[i].UpdateSlot(inventoryList[i]);
-        }
+        for (int i = 0; i < listInv.Count; i++) { itemSlots[i].UpdateSlot(listInv[i]); }
+        for (int i = 0; i < listStash.Count; i++) { stashSlots[i].UpdateSlot(listStash[i]); }
     }
 
-    public void AddItem(ItemData item) {
-        if (inventoryDictionary.TryGetValue(item, out InventoryItem value) ){
-            value.AddStack();
-        }else{
-            InventoryItem newItem = new InventoryItem(item);
-            inventoryList.Add(newItem);
-            inventoryDictionary.Add(item, newItem);
+    public void AddItem(ItemData item)
+    {
+        if (item.itemType == ItemType.Equippment) {
+            AddToInv(item);
+        }else if (item.itemType == ItemType.Material) {
+            AddToStash(item);
         }
 
         UpdateSlotUI();
     }
 
+    private void AddToStash(ItemData item)
+    {
+        if (dictStash.TryGetValue(item, out InventoryItem value))
+        {
+            value.AddStack();
+        }
+        else
+        {
+            InventoryItem newItem = new InventoryItem(item);
+            listStash.Add(newItem);
+            dictStash.Add(item, newItem);
+        }
+    }
+
+    private void AddToInv(ItemData item)
+    {
+        if (dictInv.TryGetValue(item, out InventoryItem value))
+        {
+            value.AddStack();
+        }
+        else
+        {
+            InventoryItem newItem = new InventoryItem(item);
+            listInv.Add(newItem);
+            dictInv.Add(item, newItem);
+        }
+    }
+
     public void RemoveItem(ItemData item) {
-        if (inventoryDictionary.TryGetValue(item, out InventoryItem value)) {
+        if (dictStash.TryGetValue(item, out InventoryItem value)) {
             if (value.stackSize <= 1) {
-                inventoryList.Remove(value);
-                inventoryDictionary.Remove(item);
+                listInv.Remove(value);
+                dictStash.Remove(item);
             }
             else {
                 value.RemoveStack();
@@ -60,8 +96,8 @@ public class Inventory : MonoBehaviour {
 
     private void Update() {
         if (Input.GetKeyDown(KeyCode.P)) {
-            Debug.Log(inventoryList[inventoryList.Count-1].data.itemName);
-            ItemData drop = inventoryList[inventoryList.Count-1].data;
+            Debug.Log(listInv[listInv.Count-1].data.itemName);
+            ItemData drop = listInv[listInv.Count-1].data;
             RemoveItem(drop);
         }
     }
