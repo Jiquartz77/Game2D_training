@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public enum EquippmentType {
+public enum EquipmentType {
 	Weapon,
 	Armor,
     Amulet,
@@ -8,6 +8,6 @@ public enum EquippmentType {
 }
 
 [CreateAssetMenu(fileName = "New Equippment", menuName = "Data/Equippment")]
-public class Item_Equippment : ItemData {
-    public EquippmentType equippmentType;
+public class Item_Equipment : ItemData {
+    public EquipmentType equippmentType;
 }

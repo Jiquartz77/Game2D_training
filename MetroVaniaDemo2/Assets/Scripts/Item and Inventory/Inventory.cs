@@ -11,6 +11,9 @@ public class Inventory : MonoBehaviour {
     public List<InventoryItem> listStash;
     public Dictionary<ItemData, InventoryItem> dictStash;
 
+    public List<InventoryItem> listEquipment;
+    public Dictionary<Item_Equipment, InventoryItem> dictEquipment;
+
     [SerializeField] private Transform inventorySlotParent;
     [SerializeField] private Transform stashSlotParent;
 
@@ -32,9 +35,11 @@ public class Inventory : MonoBehaviour {
         listStash = new List<InventoryItem>();
         dictStash = new Dictionary<ItemData, InventoryItem>();
 
+        listEquipment = new List<InventoryItem>();
+        dictEquipment = new Dictionary<Item_Equipment, InventoryItem>();
+
         itemSlots = inventorySlotParent.GetComponentsInChildren<UI_ItemSlot>();
         stashSlots = stashSlotParent.GetComponentsInChildren<UI_ItemSlot>();
-        UpdateSlotUI();
     }
 
     private void UpdateSlotUI(){
@@ -42,8 +47,33 @@ public class Inventory : MonoBehaviour {
         for (int i = 0; i < listStash.Count; i++) { stashSlots[i].UpdateSlot(listStash[i]); }
     }
 
-    public void AddItem(ItemData item)
-    {
+    public void EquipItem(ItemData item) {
+        Item_Equipment equippment = item as Item_Equipment;
+        InventoryItem newItem = new InventoryItem(item);
+        Item_Equipment oldEquip =null;
+
+        foreach(KeyValuePair<Item_Equipment, InventoryItem> kvp in dictEquipment){
+            if (kvp.Key.equippmentType == equippment.equippmentType) {
+                oldEquip = kvp.Key;
+            }
+        }
+
+        if (oldEquip != null) {
+            UnequipItem(oldEquip);
+            AddItem(oldEquip);
+        }
+
+        listEquipment.Add(newItem);
+        dictEquipment.Add(equippment, newItem);
+        RemoveItem(item); //remove from inventory
+
+        UpdateSlotUI();
+    }
+
+    public void UnequipItem(ItemData item) {
+    }
+
+    public void AddItem(ItemData item) {
         if (item.itemType == ItemType.Equippment) {
             AddToInv(item);
         }else if (item.itemType == ItemType.Material) {
